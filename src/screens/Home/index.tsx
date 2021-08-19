@@ -32,9 +32,12 @@ export function Home() {
     const dataKey = '@savepass:logins';
 
     const loginsStringified = await AsyncStorage.getItem(dataKey);
-    const loginsParsed = loginsStringified ? JSON.parse(loginsStringified) : [];
-    setData(loginsParsed);
-    setSearchListData(loginsParsed);
+
+    if (loginsStringified) {
+      const loginsParsed = loginsStringified ? JSON.parse(loginsStringified) : [];
+      setData(loginsParsed);
+      setSearchListData(loginsParsed);
+    }
   }
 
   function handleFilterLoginData() {
@@ -46,6 +49,10 @@ export function Home() {
   }
 
   function handleChangeInputText(text: string) {
+    if (!text.trim()) {
+      setSearchListData(data);
+    }
+
     setSearchText(text);
   }
 
